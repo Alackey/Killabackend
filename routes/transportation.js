@@ -1,6 +1,6 @@
 const express = require('express');
 const utils = require('../internal/utils');
-const transportation = require('../internal/transportation');
+const googleplaces = require('../internal/googleplaces');
 
 const router = express.Router();
 
@@ -15,7 +15,7 @@ router.get('/airports', (req, res) => {
   const long = req.query.long;
   const radius = utils.toMeters(req.query.radius);
 
-  transportation.getAirports(lat, long, radius)
+  googleplaces.getPlaces(lat, long, radius, 'airport')
     .then((airports) => {
       res.status(200).json({ data: airports });
     }).catch((err) => {
