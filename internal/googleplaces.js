@@ -10,11 +10,11 @@ const placeSearch = googleplacesAPI.placeSearch;
  * @param radius - the radius from the location to search for places
  * @param types - the types of the places
 */
-const getPlaces = function getPlaces(lat, long, radius, types) {
+const getPlaces = function getPlaces(lat, long, radius, type) {
   return new Promise((resolve, reject) => {
     const parameters = {
       location: [lat, long],
-      types,
+      type,
       radius,
     };
 
