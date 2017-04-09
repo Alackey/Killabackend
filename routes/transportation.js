@@ -19,7 +19,7 @@ router.get('/', (req, res) => {
   let types = [req.query.types];
 
   // Check if types is not given or a list of types
-  if (types == null) {
+  if (types[0] == null) {
     types = ['airport', 'subway_station', 'train_station', 'transit_station', 'bus_station'];
   } else if (types[0].includes(',')) {
     types = types[0].split(',');
