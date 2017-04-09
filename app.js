@@ -2,7 +2,9 @@ const express = require('express');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
+const compression = require('compression');
 
+// Get route files
 const weather = require('./routes/weather');
 const transportation = require('./routes/transportation');
 
@@ -20,6 +22,10 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(cookieParser());
 
+// compress all responses
+app.use(compression());
+
+// Add routes
 app.use('/weather', weather);
 app.use('/transportation', transportation);
 
