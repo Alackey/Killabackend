@@ -7,6 +7,7 @@ const compression = require('compression');
 // Get route files
 const weather = require('./routes/weather');
 const transportation = require('./routes/transportation');
+const amenities = require('./routes/amenities');
 
 
 const app = express();
@@ -28,6 +29,7 @@ app.use(compression());
 // Add routes
 app.use('/weather', weather);
 app.use('/transportation', transportation);
+app.use('/amenities', amenities);
 
 /// catch 404 and forward to error handler
 app.use((req, res, next) => {

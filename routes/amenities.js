@@ -4,13 +4,13 @@ const googleplaces = require('../internal/googleplaces');
 
 const router = express.Router();
 
-/* GET transportation
- * Ex: /transportation?lat=12&long=34&radius=3&types=airport,bus_station
+/* GET amenities
+ * Ex: /amenities?lat=12&long=34&radius=3&types=restaurant
  *
  * @queryparam [lat] the latitude
  * @queryparam [long] the longitude
  * @queryparam [radius] the radius of the search area in miles
- * @queryparam [types] the types of the places of transportation
+ * @queryparam [types] the types of the places of amenities
 */
 router.get('/', (req, res) => {
   const lat = req.query.lat;
@@ -35,16 +35,26 @@ router.get('/', (req, res) => {
   const result = [];
   Promise.all(placePromises)
     .then((data) => {
-      data.forEach((place) => {
-        place.results.forEach((location) => {
-          result.push({ name: location.name,
-            vicinity: location.vicinity,
-            open: location.opening_hours,
-            photos: location.photos,
-            rating: location.rating });
+      data.forEach((type) => {
+        type.results.forEach((place) => {
+          const parsedResult = {
+            name: place.name,
+            address: place.vicinity,
+            lat: place.geometry.location.lat,
+            long: place.geometry.location.lng,
+            // photos: place.photos,
+            rating: place.rating,
+          };
+
+          try {
+            parsedResult.open = place.opening_hours.open_now;
+          } catch (e) {
+          }
+
+          result.push(parsedResult);
         });
       });
-      res.status(200).json({ result });
+      res.status(200).json({ data: result });
     }).catch((err) => {
       res.status(500).json({ data: err });
     });
