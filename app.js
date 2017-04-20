@@ -3,9 +3,11 @@ const express = require('express');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
+const path = require('path');
 const compression = require('compression');
 
 // Get route files
+const home = require('./routes/home');
 const weather = require('./routes/weather');
 const transportation = require('./routes/transportation');
 const amenities = require('./routes/amenities');
@@ -19,6 +21,10 @@ const env = process.env.NODE_ENV || 'development';
 app.locals.ENV = env;
 app.locals.ENV_DEVELOPMENT = env === 'development';
 
+// Setup views and static files
+app.use(express.static(path.join(__dirname, 'views')));
+app.use(express.static(path.join(__dirname, 'public')));
+
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
@@ -30,6 +36,7 @@ app.use(cookieParser());
 app.use(compression());
 
 // Add routes
+app.use('/', home);
 app.use('/weather', weather);
 app.use('/transportation', transportation);
 app.use('/amenities', amenities);
