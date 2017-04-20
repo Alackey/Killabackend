@@ -15,7 +15,7 @@ const getNeighbours = function getNeighbours(parameters) {
       const comps = neighbours.response.properties.comparables[0].comp;
 
       comps.forEach((comp) => {
-        results.push({ address: comp.address, zestimate: comp.zestimate });
+        results.push({ address: comp.address[0], zestimate: comp.zestimate[0] });
       });
     });
       return results;
