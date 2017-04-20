@@ -1,3 +1,4 @@
+/*eslint spaced-comment:0*/
 const express = require('express');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
@@ -8,6 +9,7 @@ const compression = require('compression');
 const weather = require('./routes/weather');
 const transportation = require('./routes/transportation');
 const amenities = require('./routes/amenities');
+const realestate = require('./routes/realestate');
 
 
 const app = express();
@@ -30,6 +32,7 @@ app.use(compression());
 app.use('/weather', weather);
 app.use('/transportation', transportation);
 app.use('/amenities', amenities);
+app.use('/realestate', realestate);
 
 /// catch 404 and forward to error handler
 app.use((req, res, next) => {
