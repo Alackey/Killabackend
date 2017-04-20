@@ -10,6 +10,7 @@ const weather = require('./routes/weather');
 const transportation = require('./routes/transportation');
 const amenities = require('./routes/amenities');
 const realestate = require('./routes/realestate');
+const crime = require('./routes/crime');
 
 
 const app = express();
@@ -33,6 +34,7 @@ app.use('/weather', weather);
 app.use('/transportation', transportation);
 app.use('/amenities', amenities);
 app.use('/realestate', realestate);
+app.use('/crime', crime);
 
 /// catch 404 and forward to error handler
 app.use((req, res, next) => {
