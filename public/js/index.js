@@ -79,5 +79,6 @@ function fillInAddress() {
 function loadResults() {
   $('#middle-content').load('results.html', function() {
     getTransportation();
+    getAmenities();
   });
 }

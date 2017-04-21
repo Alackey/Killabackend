@@ -369,46 +369,70 @@
     //getMarkers(lat, lng);
   }
 
+  // Get the amenity services
+  function getAmenities() {
+    $.ajax({
+        url: "/amenities?lat=" + local.lat + "&long=" + local.long + "&radius=" + local.range
+      })
+      .done(function (data) {
+        setMarkers(data);
+      })
+      .fail(function (jq, text, err) {
+        var mapErrors = $('#map-errors');
+
+        if (mapErrors.children().length == 0) {
+          mapErrors.append('<h3>Error</h3>');
+        }
+        mapErrors.append('<p>No amenities found. Increase radius.</p>');
+      });
+  }
+
   // Get the transportation services
   function getTransportation() {
     $.ajax({
-      url: "/transportation?lat=" + local.lat + "&long=" + local.long + "&radius=" + local.range
-    }).done(function (data) {
-      var type = data.data.type;
-      
-      data.data.results.forEach(function (marker) {
-        var coordinates = new google.maps.LatLng(marker.lat, marker.long);
-        var setUp = {
-          position: coordinates,
-          map: map,
-          title: marker.name
+        url: "/transportation?lat=" + local.lat + "&long=" + local.long + "&radius=" + local.range
+      })
+      .done(function (data) {
+        setMarkers(data);
+      })
+      .fail(function (jq, text, err) {
+        var mapErrors = $('#map-errors');
+
+        if (mapErrors.children().length == 0) {
+          mapErrors.append('<h3>Error</h3>');
         }
-
-        // Set icon
-        if (type == "transportation") {
-          setUp.icon = "images/icons/transportation.png";
-        } else if (type == "amenity") {
-          setUp.icon = "images/icons/amenity.png";
-        }
-        var completeMarker = new google.maps.Marker(setUp);
-
-        var infowindow = new google.maps.InfoWindow({
-          content: JSON.stringify(marker)
-        });
-
-        // adding an on click listener to show info about the particular marker
-        completeMarker.addListener("click", function () {
-          infowindow.open(map, completeMarker);
-        });
+        mapErrors.append('<p>No transportation found. Increase radius.</p>');
       });
-    })
-    .fail(function(jq, text, err) {
-      var mapErrors = $('#map-errors');
-      
-      if (mapErrors.children().length == 0) {
-        mapErrors.append('<h3>Error</h3>');
+  }
+
+  // Set the markers
+  function setMarkers(data) {
+    var type = data.data.type;
+
+    data.data.results.forEach(function (marker) {
+      var coordinates = new google.maps.LatLng(marker.lat, marker.long);
+      var setUp = {
+        position: coordinates,
+        map: map,
+        title: marker.name
       }
-      mapErrors.append('<p>No transportation found. Increase radius.</p>');
+
+      // Set icon
+      if (type == "transportation") {
+        setUp.icon = "images/icons/transportation.png";
+      } else if (type == "amenity") {
+        setUp.icon = "images/icons/amenity.png";
+      }
+      var completeMarker = new google.maps.Marker(setUp);
+
+      var infowindow = new google.maps.InfoWindow({
+        content: JSON.stringify(marker)
+      });
+
+      // adding an on click listener to show info about the particular marker
+      completeMarker.addListener("click", function () {
+        infowindow.open(map, completeMarker);
+      });
     });
   }
 
