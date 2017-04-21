@@ -21,7 +21,7 @@
 
 ## Weather
 
-***OVERVIEW***: The weather functionality consists of two files: weather.js and darksky.js. These two javascript programs interact with each other to return weather information: a  weekly forecast and the seasonal weather of the previous year. The weekly forecast will conventionally display daily temperatures for the next seven days. Furthermore, the average weather temperature is returned for every quarter of the previos year.  This functionality strives to provide thorough weather information on the specified location. It will allow users to have a better sense of how the weather will be like in the specified location.
+**OVERVIEW**: The weather functionality consists of two files: weather.js and darksky.js. These two javascript programs interact with each other to return weather information: a  weekly forecast and the seasonal weather of the previous year. The weekly forecast will conventionally display daily temperatures for the next seven days. Furthermore, the average weather temperature is returned for every quarter of the previos year.  This functionality strives to provide thorough weather information on the specified location. It will allow users to have a better sense of how the weather will be like in the specified location.
 
 * weather.js
 * darksky.js
@@ -29,7 +29,7 @@
 ### weather.js 
 * `weather.js` receives the coordinates of the specified location as arguments, therefore the latitude and longitude are passed into this function. This function will direct to darksky.js, which will make API calls to two different sources, DarkSky and Weather Underground, in order to reduce the strain on using one API KEY for all data retrieval. This 
 file's main focus is to return a response to the browser with data in JSON. The response should look like the follow: 
-`{ "data": [ Object ], "seasonal": [ Object }`
+`{ "forecast": [ Object ], "seasonal": [ Object }`
 
 ### darksky.js
 * `darksky.js` handles all the API calls to DarkSky and Weather Underground. It contains two methods, getWeather . This method hands all calls for. DarkSky's API is solely used for retrieving weekly forecasts of the current location, which is handled by `getWeather()` function. However, the approach to gather the seasonal weather for the previous year was not as straight forward. The first component to retrieve seasonal weather was to make a call to Weather Underground's API to extract the code of the nearest airport. This was handled but the function, `getGeolocation()`. The airport code is later passed, as an argument, into the function, `getHistory()`. This method will make HTTP requests to the reconstructed URL that contains the airport code. Weather temperatures were extracted for the following quarters: January - March, April - June, July - September, October - December. Cheerio and CheerioTableParser were two libraries used to web scrape the body of the response, and extract the maximum and minimum temperature of each quarter of the previous year. The maximum and minimum values were used to calculate the average temperature of every three months of the previous year. JSON objects were constructed for the attained information and returned to `weather.js`. 
