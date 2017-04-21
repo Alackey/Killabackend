@@ -8,7 +8,7 @@ const getNeighbours = function getNeighbours(parameters) {
   zillow.get('GetSearchResults', parameters).then((result) => {
 
     const zpids = result.response.results.result[0].zpid;
-    const p = { zpid: zpids, count: 10 };
+    const p = { zpid: zpids, count: 20 };
     const second = zillow.get('GetComps', p);
     const results = [];
     second.then((neighbours) => {
