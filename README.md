@@ -7,14 +7,14 @@
 4. ```npm start```
 
 ### Configuring API keys
-Set the environment variable: ```GOOGLE_API_KEY=YOU_API_KEY```
-Set the environment variable: ```DARKSKY_API_KEY=YOUR_API_KEY```
-Set the environment variable: ```WUNDERGROUND_API_KEY=YOUR_API_KEY```
+1. Set the environment variable: ```GOOGLE_API_KEY=YOU_API_KEY```
+2. Set the environment variable: ```DARKSKY_API_KEY=YOUR_API_KEY```
+3. Set the environment variable: ```WUNDERGROUND_API_KEY=YOUR_API_KEY```
 
 ## Notes
 * To add a new route create the file in the routes folder then define the route in 'app.js'. You have to add 2 lines in 'app.js' when you create a new route.
 
-##Weather
+## Weather
 
 OVERVIEW:
 * The file, weather.js, provides weather data of the specified location. It will return the current weekly forecast and the seasonal weather for the previous year.  Among the seven days of weather information, the average temperature is, the expected maximum temperature, and the expected minimum temperature are provided. Furthermore, the average weather for the previous is also given such that the quarterly weather data is provided.  This functionality strives to provide thorough weather information on the specified location. It will allow users to have a better insight on how the weather will be like in the specified location.
