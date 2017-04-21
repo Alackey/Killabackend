@@ -21,7 +21,7 @@
 
 ## Weather
 
-*** OVERVIEW ***: The weather functionality consists of two files: weather.js and darksky.js. These two javascript programs interact with each other to return weather information: a  weekly forecast and the seasonal weather of the previous year. The weekly forecast will conventionally display daily temperatures for the next seven days. Furthermore, the average weather temperature is returned for every quarter of the previos year.  This functionality strives to provide thorough weather information on the specified location. It will allow users to have a better sense of how the weather will be like in the specified location.
+***OVERVIEW***: The weather functionality consists of two files: weather.js and darksky.js. These two javascript programs interact with each other to return weather information: a  weekly forecast and the seasonal weather of the previous year. The weekly forecast will conventionally display daily temperatures for the next seven days. Furthermore, the average weather temperature is returned for every quarter of the previos year.  This functionality strives to provide thorough weather information on the specified location. It will allow users to have a better sense of how the weather will be like in the specified location.
 
 * weather.js
 * darksky.js
