@@ -1,29 +1,31 @@
 <div class="filters">
   <div class="filtersBox">
     <div class="filterChoices">
-      <div class="row">
-        <div class="col-md-3 col-sm-6 col-xs-6">
-          <div class="btn-filter btn-filter-checked btn-filter-med btnAmenities">
-            <span class="filterName">Amenities</span>
-            <img src="images/checkmark.png" class="btn-image-check">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-3 col-sm-6 col-xs-6">
+            <div class="btn-filter btn-filter-checked btn-filter-med btnAmenities">
+              <span class="filterName">Amenities</span>
+              <img src="images/checkmark.png" class="btn-image-check">
+            </div>
           </div>
-        </div>
-        <div class="col-md-3 col-sm-6 col-xs-6">
-          <div class="btn-filter btn-filter-checked btn-filter-med btnTransit">
-            <span class="filterName">Transit</span>
-            <img src="images/checkmark.png" class="btn-image-check">
+          <div class="col-md-3 col-sm-6 col-xs-6">
+            <div class="btn-filter btn-filter-checked btn-filter-med btnTransit">
+              <span class="filterName">Transit</span>
+              <img src="images/checkmark.png" class="btn-image-check">
+            </div>
           </div>
-        </div>
-        <div class="col-md-3 col-sm-6 col-xs-6">
-          <div class="btn-filter btn-filter-checked btn-filter-med btnBuy">
-            <span class="filterName">Buy Property</span>
-            <img src="images/checkmark.png" class="btn-image-check">
+          <div class="col-md-3 col-sm-6 col-xs-6">
+            <div class="btn-filter btn-filter-checked btn-filter-med btnBuy">
+              <span class="filterName">Buy Property</span>
+              <img src="images/checkmark.png" class="btn-image-check">
+            </div>
           </div>
-        </div>
-        <div class="col-md-3 col-sm-6 col-xs-6">
-          <div class="btn-filter btn-filter-checked btn-filter-med btnRent">
-            <span class="filterName">Rent Property</span>
-            <img src="images/checkmark.png" class="btn-image-check">
+          <div class="col-md-3 col-sm-6 col-xs-6">
+            <div class="btn-filter btn-filter-checked btn-filter-med btnRent">
+              <span class="filterName">Rent Property</span>
+              <img src="images/checkmark.png" class="btn-image-check">
+            </div>
           </div>
         </div>
       </div>
@@ -49,11 +51,90 @@
     </div>
   </div>
 </div>
+
+<!-- Weather -->
 <div class="weather">
   <h1 id="weatherTitle">WEATHER</h1>
+  <div class="container-fluid">
+    <!--Weekly Weather Row-->
+    <div class="row">
+      <div class="col-xs-12">
+        <h3 class="text-center">Weekly Weather</h3>
+        <div class="weather">
+          <div class="center-row">
+            <div class="row">
+              <div class="col-xs-2">Sun</div>
+              <div class="col-xs-1">Mon</div>
+              <div class="col-xs-2">Tue</div>
+              <div class="col-xs-1">Wed</div>
+              <div class="col-xs-2">Thu</div>
+              <div class="col-xs-1">Fri</div>
+              <div class="col-xs-2">Sat</div>
+            </div>
+          </div>
+          <div class="center-row">
+            <div id="weeklyImg" class="row"></div>
+          </div>
+          <div class="center-row">
+            <div id="weeklyOutput" class="row"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--Seasonal Weather Row-->
+    <div class="row">
+      <div class="col-xs-12">
+        <h3 class="text-center">Seasonal Weather</h3>
+        <div class="weather">
+          <div class="center-row">
+            <div class="row">
+              <div class="col-xs-3">Spring</div>
+              <div class="col-xs-3">Summer</div>
+              <div class="col-xs-3">Autumn</div>
+              <div class="col-xs-3">Winter</div>
+            </div>
+          </div>
+          <div class="center-row">
+            <div id="seasonalImg" class="row"></div>
+          </div>
+          <div class="center-row">
+            <div id="seasonalOutput" class="row"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
+
+<!-- Map -->
 <div class="map">
-  <h1 id="mapTitle">MAP</h1>
+  <div class="container-fluid">
+    <h1 id="mapTitle">MAP</h1>
+    <div class="row">
+      <div class="col-md-4"></div>
+      <!--Legend for markers-->
+      <div class="col-md-4 text-center">
+        <div class="row">
+          <h3 class="col-md-3">Legend:</h3>
+          <div class="col-md-3">
+            <img src=icons/transportation.png>
+            <p>Transportation</p>
+          </div>
+          <div class="col-md-3">
+            <img src=icons/amenity.png>
+            <p>Amenities</p>
+          </div>
+          <div class="col-md-3">
+            <img src=icons/property.png>
+            <div>Properties</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4"></div>
+    </div>
+
+    <div id="map"></div>
+  </div>
 </div>
 
 <div class="crimeList">
@@ -155,20 +236,272 @@
   $('#table_id').DataTable();
 
   //ON/OFF CLICK TOGGLE FOR FILTERS
-  $(".btnAmenities, .btnTransit, .btnBuy, .btnRent").click(function(){
+  $(".btnAmenities, .btnTransit, .btnBuy, .btnRent").click(function () {
     $(this).toggleClass("btn-filter-unchecked");
     $(this).find("img").toggle();
   });
 
-  $(".btnCheckToggle").click(function(){
-    if($(this).hasClass("btn-filter-checked")){
+  $(".btnCheckToggle").click(function () {
+    if ($(this).hasClass("btn-filter-checked")) {
       $(".btnAmenities, .btnTransit, .btnBuy, .btnRent").toggleClass("btn-filter-checked");
       $(".btnAmenities, .btnTransit, .btnBuy, .btnRent").find("img").toggle();
     }
 
-    if($(this).hasClass("btn-filter-unchecked")){
+    if ($(this).hasClass("btn-filter-unchecked")) {
       $(".btnAmenities, .btnTransit, .btnBuy, .btnRent").toggleClass("btn-filter-unchecked");
       $(".btnAmenities, .btnTransit, .btnBuy, .btnRent").find("img").toggle();
     }
   });
+</script>
+
+<script>
+  var map;
+  var twoMarkers = {
+    "data": {
+      "results": [{
+          "name": "Downtown Manhattan Heliport",
+          "address": "6 East River Bikeway, New York",
+          "lat": 40.7015101,
+          "long": -74.0091494,
+          "rating": 4.7,
+          "type": "airport",
+          "open": true
+        },
+        {
+          "name": "Saker Aviation Services",
+          "address": "6 East River Bikeway, New York",
+          "lat": 40.701457,
+          "long": -74.009225,
+          "rating": 5,
+          "type": "airport"
+        }
+      ],
+      "status": "OK"
+    }
+  };
+
+  var weatherReport = {
+    "weekly": [{
+        temp: 100,
+        icon: "sunny"
+      },
+      {
+        temp: 75,
+        icon: "rainy"
+      },
+      {
+        temp: 65,
+        icon: "cloudy"
+      },
+      {
+        temp: 63,
+        icon: "rainy"
+      },
+      {
+        temp: 55,
+        icon: "foggy"
+      },
+      {
+        temp: 79,
+        icon: "sunny"
+      },
+      {
+        temp: 86,
+        icon: "sunny"
+      }
+    ],
+    "seasonal": [{
+        temp: 85,
+        icon: "rainy"
+      },
+      {
+        temp: 100,
+        icon: "sunny"
+      },
+      {
+        temp: 70,
+        icon: "cloudy"
+      },
+      {
+        temp: 30,
+        icon: "snowy"
+      }
+    ]
+  }
+
+  setWeather();
+
+  function initMap() {
+    var coordinates = {
+      lat: 40,
+      lng: -100
+    };
+    map = new google.maps.Map(document.getElementById('map'), {
+      zoom: 4,
+      center: coordinates
+    });
+  }
+
+  function searchMap() {
+    result = document.getElementById("searchBox").value;
+
+    var webAddress = "https://maps.googleapis.com/maps/api/geocode/json?address=" +
+      result + "&key=AIzaSyBCe0I4peOv_U0Ud2e6yNpuWtgRTpalG8Y";
+
+    $.get(webAddress)
+      .done(function (data) {
+        var lat = data.results[0].geometry.location.lat;
+        var lng = data.results[0].geometry.location.lng;
+
+        map.setCenter(new google.maps.LatLng(lat, lng));
+        map.setZoom(13);
+
+        var marker = new google.maps.Marker({
+          position: {
+            lat: lat,
+            lng: lng
+          },
+          map: map
+          //icon: "icons/marker.png"
+        });
+        // call function to get information about all properites, amenities, and transportation in the area
+        getMarkers(lat, lng);
+      }).fail(function (error) {
+        console.log(error)
+      });
+  }
+
+  function getMarkers(lat, lng) {
+    $.ajax({
+      url: "https://www.itc.alackey.com/transportation?lat=" + lat + "&long=" + lng + "&radius=1",
+      headers: {
+        "Access-Control-Allow-Origin": "*"
+      }
+    }).done(function (data) {
+      data.results.forEach(function (marker) {
+        var coordinates = new google.maps.LatLng(marker.lat, marker.long);
+        var setUp = {
+          position: coordinates,
+          map: map,
+          title: marker.name
+        }
+        if (marker.type == "airport") {
+          setUp.icon = "icons/transportation.png"
+        } else if (marker.type == "amenity") {
+          setUp.icon = "icons/amenity.png"
+        }
+        var completeMarker = new google.maps.Marker(setUp);
+
+        console.log(setUp);
+        // adding an on click listener to show info about the particular marker
+        completeMarker.addListener("click", function () {
+          marker.infowindow = new google.maps.InfoWindow();
+          marker.infowindow.open(map, marker);
+        });
+      });
+    });
+  }
+
+  // Set the temperatures for the week and the seasons along with their appropriate images
+  function setWeather( /*weeklyTemp, seasonTemp*/ ) {
+
+    var weeklyOutput = document.getElementById("weeklyOutput");
+    var weeklyImg = document.getElementById("weeklyImg");
+    var seasonalOutput = document.getElementById("seasonalOutput");
+    var seasonalImg = document.getElementById("seasonalImg");
+
+    // Loop through the seven days of the week and set the temperature and icon
+    for (i = 0; i < 7; i++) {
+      // create a dynamic div for each day of the week for the temperature
+      var weatherDiv = document.createElement("div");
+      if (i % 2 == 0) {
+        weatherDiv.setAttribute("class", "col-xs-2");
+      } else {
+        weatherDiv.setAttribute("class", "col-xs-1");
+      }
+      weatherDiv.innerHTML = weatherReport.weekly[i].temp + "&#8457;";
+      weeklyOutput.appendChild(weatherDiv);
+
+      // create a dynamic div for each day of the week for the icon
+      var imgDiv = document.createElement("div");
+      if (i % 2 == 0) {
+        imgDiv.setAttribute("class", "col-xs-2");
+      } else {
+        imgDiv.setAttribute("class", "col-xs-1");
+      }
+
+      // create a dynamic img for each day of the week for the icon
+      var imgEle = document.createElement("img");
+
+      imgEle.setAttribute("height", 15);
+      imgEle.setAttribute("width", 15);
+
+      switch (weatherReport.weekly[i].icon) {
+        case "sunny":
+          imgEle.setAttribute("src", "icons/sunny.png");
+          break;
+        case "cloudy":
+          imgEle.setAttribute("src", "icons/cloudy.png");
+          break;
+        case "foggy":
+          imgEle.setAttribute("src", "icons/foggy.png");
+          break;
+        case "rainy":
+          imgEle.setAttribute("src", "icons/rainy.png");
+          break;
+        case "snowy":
+          imgEle.setAttribute("src", "icons/snowy.png");
+          break;
+        default:
+          imgEle.setAttribute("src", "icons/sunny.png");
+      }
+
+      imgDiv.appendChild(imgEle);
+      weeklyImg.appendChild(imgDiv);
+    }
+
+    for (i = 0; i < 4; i++) {
+      // create a dynamic div for each season of the year for the temperature
+      var weatherDiv = document.createElement("div");
+      weatherDiv.setAttribute("class", "col-xs-3");
+      weatherDiv.innerHTML = weatherReport.seasonal[i].temp + "&#8457;";
+      seasonalOutput.appendChild(weatherDiv);
+
+      // create a dynamic div for each season of the year for the icon
+      var imgDiv = document.createElement("div");
+      imgDiv.setAttribute("class", "col-xs-3");
+
+      // create a dynamic img for each season of the year for the icon
+      var imgEle = document.createElement("img");
+
+      imgEle.setAttribute("height", 15);
+      imgEle.setAttribute("width", 15);
+
+      switch (weatherReport.seasonal[i].icon) {
+        case "sunny":
+          imgEle.setAttribute("src", "icons/sunny.png");
+          break;
+        case "cloudy":
+          imgEle.setAttribute("src", "icons/cloudy.png");
+          break;
+        case "foggy":
+          imgEle.setAttribute("src", "icons/foggy.png");
+          break;
+        case "rainy":
+          imgEle.setAttribute("src", "icons/rainy.png");
+          break;
+        case "snowy":
+          imgEle.setAttribute("src", "icons/snowy.png");
+          break;
+        default:
+          imgEle.setAttribute("src", "icons/sunny.png");
+      }
+
+      imgDiv.appendChild(imgEle);
+      seasonalImg.appendChild(imgDiv);
+    }
+  }
+</script>
+
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBCe0I4peOv_U0Ud2e6yNpuWtgRTpalG8Y&callback=initMap">
 </script>
