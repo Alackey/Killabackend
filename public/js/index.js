@@ -57,22 +57,27 @@ function fillInAddress() {
   var place = autocomplete.getPlace();
   local = {
     full_address: place.formatted_address,
+    address: place.name,
     lat: place.geometry.location.lat(),
     long: place.geometry.location.lng(),
     range: parseInt($('.milesSelect :selected').text()),
   };
-
+  console.log(JSON.stringify(place));
   // Get parts of the address
+  var citystate = '';
   place.address_components.forEach(function(component) {
     component.types.forEach(function(type) {
       if (type == 'administrative_area_level_1') {
         local.state_short = component.short_name;
+        citystate = citystate + component.short_name;
       } else if (type == 'locality') {
         local.city = component.long_name;
+        citystate = component.long_name + ', ';
       }
     });
   });
-
+  local.citystate = citystate;
+  console.log(local);
   // Load results page
   loadResults();
 }
@@ -80,8 +85,10 @@ function fillInAddress() {
 // Load the results page
 function loadResults() {
   $('#middle-content').load('results.html', function() {
+    setWeather();
     getTransportation();
     getAmenities();
+    getProperties();
     getCrimes();
   });
 }

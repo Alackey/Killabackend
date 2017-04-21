@@ -1,6 +1,6 @@
 const express = require('express');
 
-const zillow = require('../internal/zillow.js');
+const zillow = require('../internal/zillow');
 
 const router = express.Router();
 
@@ -19,14 +19,15 @@ router.get('/', (req, res) => {
   let output;
 
   if (citystate == null) {
-    output = zillow.getNeighbours({ address: addres, citystatezip: zip} );
+    output = zillow.getNeighbours({ address: addres, citystatezip: zip });
   } else {
     output = zillow.getNeighbours({ address: addres, citystatezip: citystate });
   }
 
 
   output.then((meh) => {
-      res.status(200).json({ data: meh });
+    console.log(meh);
+    res.status(200).json({ data: meh });
   });
 });
 

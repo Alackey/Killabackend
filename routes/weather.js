@@ -13,7 +13,6 @@ router.get('/', (req, res) => {
 
   weather.getWeather(lat, long)
     .then((data) => {
-
       for (let i = 0; i < 8; i++) {
         const date = new Date(0);
         const weeklyTemperature = {};

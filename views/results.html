@@ -41,11 +41,11 @@
               <span class="lblCheck">Check/Uncheck</span>
             </div>
           </div>
-          <div class="col-md-6 col-sm-6">
+          <!--<div class="col-md-6 col-sm-6">
             <div class="btn-filter btn-filter-unchecked btn-filter-med btnAdvanced">
               <span class="lblAdSearch">Advanced Search</span>
             </div>
-          </div>
+          </div>-->
         </div>
       </div>
     </div>
@@ -250,7 +250,6 @@
     ]
   }
 
-  setWeather();
   initMap();
   searchMap();
 
@@ -322,6 +321,20 @@
           mapErrors.append('<h3>Error</h3>');
         }
         mapErrors.append('<p>No transportation found. Increase radius.</p>');
+      });
+  }
+
+  // Get the Properties
+  function getProperties() {
+    $.ajax({
+        url: "/realestate?address=" + local.address + "&citystate=" + local.citystate
+      })
+      .done(function (data) {
+        console.log(JSON.stringify(data));
+      })
+      .fail(function (jq, text, err) {
+        console.log(text);
+        console.log(err);
       });
   }
 
@@ -416,7 +429,7 @@
 
         // Loop through the seven days of the week and set the temperature and icon
         for (i = 1; i < 8; i++) {
-          days[i-1] = days[i-1] + data.forecast[i].day.substring(0, 3) + '</div>';
+          days[i - 1] = days[i - 1] + data.forecast[i].day.substring(0, 3) + '</div>';
 
           // create a dynamic div for each day of the week for the temperature
           var weatherDiv = document.createElement("div");
@@ -494,9 +507,9 @@
             imgEle.setAttribute("src", "images/icons/sunny.png");
           } else if (data.seasonal[i].averageTemperature < 32) {
             imgEle.setAttribute("src", "images/icons/snowy.png");
-          } else if (data.seasonal[i].averageTemperature <=75 && data.seasonal[i].averageTemperature > 65) {
+          } else if (data.seasonal[i].averageTemperature <= 75 && data.seasonal[i].averageTemperature > 65) {
             imgEle.setAttribute("src", "images/icons/cloudy.png");
-          } else if (data.seasonal[i].averageTemperature <=65 && data.seasonal[i].averageTemperature > 35) {
+          } else if (data.seasonal[i].averageTemperature <= 65 && data.seasonal[i].averageTemperature > 35) {
             imgEle.setAttribute("src", "images/icons/foggy.png");
           }
 
