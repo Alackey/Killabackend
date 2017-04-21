@@ -65,8 +65,10 @@ function fillInAddress() {
   // Get parts of the address
   place.address_components.forEach(function(component) {
     component.types.forEach(function(type) {
-      if (type == "administrative_area_level_1") {
+      if (type == 'administrative_area_level_1') {
         local.state_short = component.short_name;
+      } else if (type == 'locality') {
+        local.city = component.long_name;
       }
     });
   });
@@ -80,5 +82,6 @@ function loadResults() {
   $('#middle-content').load('results.html', function() {
     getTransportation();
     getAmenities();
+    getCrimes();
   });
 }
