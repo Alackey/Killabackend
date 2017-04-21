@@ -1,26 +1,28 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>Results</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="css/index.css">
-    <link rel="stylesheet" type="text/css" href="css/home.css">
-    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.13/css/jquery.dataTables.css">
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-    <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.13/js/jquery.dataTables.js"></script>
-  </head>
-  <body>
-    <!-- Header -->
-    <div class="header">
-      <div class="container">
-          <h1 id="headerTitle">Killabyte</h1>
-      </div>
-    </div>
 
-    <!-- Main content -->
-    <div class="content">
-      <div class="wrapper">
+<head>
+  <meta charset="utf-8">
+  <title>Results</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="css/index.css">
+  <link rel="stylesheet" type="text/css" href="css/home.css">
+  <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.13/css/jquery.dataTables.css">
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.13/js/jquery.dataTables.js"></script>
+</head>
+
+<body>
+  <!-- Header -->
+  <div class="header">
+    <div class="container">
+      <h1 id="headerTitle">Killabyte</h1>
+    </div>
+  </div>
+
+  <!-- Main content -->
+  <div class="content">
+    <div class="wrapper">
       <div class="container">
         <br>
         <div class="row">
@@ -28,71 +30,39 @@
             <input placeholder="Search..." type="text" id="searchBar autocomplete" onFocus="geolocate()">
           </div> -->
           <div id="locationField" class="col-md-8 col-sm-8 col-xs-6">
-            <input id="autocomplete" placeholder="Enter your address..."
-                   onFocus="geolocate()" type="text"></input>
+            <input id="autocomplete" placeholder="Enter your address..." onFocus="geolocate()" type="text"></input>
           </div>
           <div class="col-md-4 col-sm-4 col-xs-6 miles">
             <select class="milesSelect">
-              <option>0</option>
+              <option>5</option>
+              <option>10</option>
+              <option>15</option>
+              <option>20</option>
               <option>25</option>
-              <option>50</option>
             </select>
             <label class="milesLabel">&nbsp; mi</label>
           </div>
         </div>
         <br>
       </div>
-      </div>
-
-      <div id="middle-content">
-        <!-- Home introduction -->
-        <div class="container">
-          <div class="row">
-            <div class="col-md-4 text-center home-section" id="home-properties-buy">
-              <img src="images/home.png">
-              <h3>Properties - Buy</h3>
-              <p>Search for properties you can buy with their prices, living space, lot size...</p>
-            </div>
-            <div class="col-md-4 text-center home-section" id="home-properties-rent">
-              <img src="images/apartment.png">
-              <h3>Properties - Rent</h3>
-              <p>Search for properties you can buy with their prices, living space...</p>
-            </div>
-            <div class="col-md-4 text-center home-section" id="home-crime">
-              <img src="images/crime.png">
-              <h3>Crime</h3>
-              <p>Search for crime in the area like sex offenders, burglaries, breakins...</p>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-4 text-center home-section" id="home-amenities">
-              <img src="images/store.png">
-              <h3>Amenities</h3>
-              <p>Search for restaurants, grocery stores, banks... in the area.</p>
-            </div>
-            <div class="col-md-4 text-center home-section" id="home-weather">
-              <img src="images/weather.png">
-              <h3>Weather</h3>
-              <p>Look at the current weather for the next few days for the weather each season.</p>
-            </div>
-            <div class="col-md-4 text-center home-section" id="home-transportation">
-              <img src="images/bus.png">
-              <h3>Transportation</h3>
-              <p>Discover all of the nearby highways, airports, ... in the area.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-    <div class="footer">
-      <div>
-        <p id="copyright">&#169; 2017 <i>Killabyte</i></p>
-      </div>
     </div>
 
-    <script src="js/index.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBCe0I4peOv_U0Ud2e6yNpuWtgRTpalG8Y&libraries=places&callback=initAutocomplete"
-        async defer></script>
+    <!-- Middle Content -->
+    <div id="middle-content">
+    </div>
+
+  </div>
+
+  <!-- Footer Content -->
+  <div class="footer">
+    <div>
+      <p id="copyright">&#169; 2017 <i>Killabyte</i></p>
+    </div>
+  </div>
+
+  <script src="js/index.js"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBCe0I4peOv_U0Ud2e6yNpuWtgRTpalG8Y&libraries=places&callback=initAutocomplete"
+    async defer></script>
 </body>
+
 </html>

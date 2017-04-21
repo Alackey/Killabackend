@@ -41,6 +41,14 @@
   padding: 20px;
 }
 
+.btnAmenities, .btnTransit, .btnBuy, .btnRent, .btnCheckToggle, .btnAdvanced{
+  transition: all 150ms ease-in-out;
+}
+
+.btnAmenities:hover, .btnTransit:hover, .btnBuy:hover, .btnRent:hover, .btnCheckToggle:hover, .btnAdvanced:hover{
+  background-color: #232730;
+}
+
 .weather{
   margin-top: 20px;
   border: 1px solid #6D7993;
@@ -57,18 +65,15 @@
   height: 500px;
 }
 
-#mapTitle{
+#mapTitle, #crimeTitle{
   text-align: center;
 }
 
 .crimeList{
   margin-top: 20px;
+  margin-bottom: 200px;
   border: 1px solid #6D7993;
   height: 350px;
-}
-
-#crimeTitle{
-  text-align: center;
 }
 
 #copyright{
@@ -86,10 +91,6 @@
   bottom: 0;
 }
 
-.row1{
-  margin-bottom: 20px;
-}
-
 /* SLACK CSS FOR BUTTONS */
 .btn-filter {
     border: 3px solid #6D7993;
@@ -97,6 +98,7 @@
     line-height: 60px;
     font-size: 20px;
     text-align: center;
+    margin: 10px;
 }
 
 .btn-filter-checked {
@@ -110,8 +112,15 @@
 }
 
 .btn-filter-checked > img {
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 30px;
+    float: right;
+    margin-top: 12px;
+    margin-right: 5px;
+}
+
+.filterName{
+  text-align: center;
 }
 
 .btn-filter-med {
