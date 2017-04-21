@@ -32,29 +32,9 @@ router.get('/', (req, res) => {
     placePromises.push(googleplaces.getPlaces(lat, long, radius, type));
   });
 
-  const result = [];
   Promise.all(placePromises)
     .then((data) => {
-      data.forEach((type) => {
-        type.results.forEach((place) => {
-          const parsedResult = {
-            name: place.name,
-            address: place.vicinity,
-            lat: place.geometry.location.lat,
-            long: place.geometry.location.lng,
-            // photos: place.photos,
-            rating: place.rating,
-          };
-
-          try {
-            parsedResult.open = place.opening_hours.open_now;
-          } catch (e) {
-          }
-
-          result.push(parsedResult);
-        });
-      });
-      res.status(200).json({ data: result });
+      res.status(200).json({ data: googleplaces.mergeResults(data) });
     }).catch((err) => {
       res.status(500).json({ data: err });
     });

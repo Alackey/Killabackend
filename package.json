@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/alackey/killabackend#readme",
   "dependencies": {
+    "@google-cloud/datastore": "^1.0.0",
     "body-parser": "^1.13.3",
     "cheerio": "0.22.0",
     "cheerio-tableparser": "^1.0.1",
@@ -29,7 +30,8 @@
     "got": "^6.7.1",
     "morgan": "^1.6.1",
     "request": "2.81.0",
-    "wunderground-api": "1.1.4"
+    "wunderground-api": "1.1.4",
+    "node-zillow": "^1.0.1"
   },
   "devDependencies": {
     "eslint": "^3.18.0",

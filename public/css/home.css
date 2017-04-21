@@ -1,0 +1,7 @@
+.home-section {
+    margin: 0 0 40px 0;
+}
+.home-section > img {
+    width: 350px;
+    height: 350px;
+}
