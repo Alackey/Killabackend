@@ -10,6 +10,7 @@
 1. Set the environment variable: ```GOOGLE_API_KEY=YOU_API_KEY```
 2. Set the environment variable: ```DARKSKY_API_KEY=YOUR_API_KEY```
 3. Set the environment variable: ```WUNDERGROUND_API_KEY=YOUR_API_KEY```
+4. Set the environment variable for zillow: ```ZWSID=YOUR_API_KEY```
 
 ## Notes
 * To add a new route create the file in the routes folder then define the route in 'app.js'. You have to add 2 lines in 'app.js' when you create a new route.
@@ -17,7 +18,8 @@
 ## Real estate documentation
 * Zillow API - https://www.zillow.com/howto/api/APIOverview.htm
 * node-zillow module for Node.js - https://github.com/ralucas/node-zillow
-* My data source was the Zillow API documentation itself and the README for the node-zillow module that simplifies making API calls to zillow. I made use of the 'GetSearchResults' call to get the zillow ID for a given address and the 'GetComps' call to retrieve information on nearby houses and places to rent that are for sale and have been sold recently. This information includes the address, latitute and longitude, and zillow estimate price (zestimate). ...(More coming)
+* My data source was the Zillow API documentation itself and the README for the node-zillow module that simplifies making API calls to zillow. I made use of the 'GetSearchResults' call to get the zillow ID for a given address and the 'GetComps' call to retrieve information on nearby houses and places to rent that are for sale and have been sold recently. This information includes the address, latitute and longitude, and zillow estimate price (zestimate). 
+* The 'realestate.js' API takes the street address and either a zipcode or city and state combination to return a list of nearby properties for sale and rent. The bulk of the work is done in 'zillow.js' which utilizes the node-zillow module to make the API calls to Zillow. 
 
 ## Weather
 
