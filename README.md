@@ -1,4 +1,4 @@
-# Killabackend
+# AskTheNeighbore
 
 ## Getting Started
 1. Clone repo
@@ -11,9 +11,33 @@
 2. Set the environment variable: ```DARKSKY_API_KEY=YOUR_API_KEY```
 3. Set the environment variable: ```WUNDERGROUND_API_KEY=YOUR_API_KEY```
 4. Set the environment variable for zillow: ```ZWSID=YOUR_API_KEY```
+5. Configure Google Cloud Datastore with a table name Crime and change the projectId in datastore.js to your project id.
 
-## Notes
-* To add a new route create the file in the routes folder then define the route in 'app.js'. You have to add 2 lines in 'app.js' when you create a new route.
+## Architecture
+* We used Node.js for our backend and plain HTML, CSS, and Javascript for the front end.
+* For the database we used Google Cloud Datastore.
+* Using Node.js provided us with a lot of asynchronous tasks which helped a lot with speed, and there are is a library for almost anything since it is very popular right now.
+
+## Optimizations for speed
+* Node.js' default behaviour is to do a lot of asynchronous tasks so that help make multiple calls to the API's quick and efficient. 
+* We GZIP's all our requests, so the data is smaller and data will get to the user faster.
+* We split all the services into seperate urls/route paths so we could use the asynchronous calls (AJAX) on the frontend to call and get all of the data in parallel.
+
+## Transportation
+* Used Google Places API to get the transportation places in a specific radius. Each a /transportation http request is called, we look up each transportation available to google places API
+* https://developers.google.com/places/web-service/
+
+## Crime
+* Used fbi.gov's public crime data that was collected over the past 20 years and is voluntarily provided by each city's Police Department. 
+* We took the crime data in the U.S. from 2008 - 2015 from fbi.gov and uploaded that data to a database (Google Cloud Datastore). Then we just search for the data in the databased on the city provided.
+* https://ucr.fbi.gov/
+
+## Database
+* We used a managed NoSQL database called Google Cloud Datastore.
+* There were no relationships and we only had one table.
+* The key for each entry had the state dash city for quick indexed access. Ex. california-pomona
+* For each entry, it contained the data in as array for crime for years 2008 - 2015. We decided to do it this way since we never needed to search by the specific crime data and only searched by the state and city.
+* https://cloud.google.com/datastore/
 
 ## Real estate documentation
 * Zillow API - https://www.zillow.com/howto/api/APIOverview.htm
