@@ -59,7 +59,7 @@
     <!--Weekly Weather Row-->
     <div class="row">
       <div class="col-xs-12">
-        <h3 class="text-center">Weekly Weather</h3>
+        <h3 class="text-center">Weekly</h3>
         <div class="weather">
           <div class="center-row">
             <div class="row">
@@ -84,7 +84,7 @@
     <!--Seasonal Weather Row-->
     <div class="row">
       <div class="col-xs-12">
-        <h3 class="text-center">Seasonal Weather</h3>
+        <h3 class="text-center">Seasonal</h3>
         <div class="weather">
           <div class="center-row">
             <div class="row">
@@ -117,15 +117,15 @@
         <div class="row">
           <h3 class="col-md-3">Legend:</h3>
           <div class="col-md-3">
-            <img src=icons/transportation.png>
+            <img src="images/icons/transportation.png">
             <p>Transportation</p>
           </div>
           <div class="col-md-3">
-            <img src=icons/amenity.png>
+            <img src="images/icons/amenity.png">
             <p>Amenities</p>
           </div>
           <div class="col-md-3">
-            <img src=icons/property.png>
+            <img src="images/icons/property.png">
             <div>Properties</div>
           </div>
         </div>
@@ -134,6 +134,7 @@
     </div>
 
     <div id="map"></div>
+    <div id="map-errors" class="text-center"></div>
   </div>
 </div>
 
@@ -330,7 +331,10 @@
   }
 
   setWeather();
+  initMap();
+  searchMap();
 
+  // Display map
   function initMap() {
     var coordinates = {
       lat: 40,
@@ -342,63 +346,69 @@
     });
   }
 
+  // Zoom into curernt location
   function searchMap() {
-    result = document.getElementById("searchBox").value;
+    console.log("Search map: " + JSON.stringify(local));
+    var lat = local.lat;
+    var lng = local.long;
 
-    var webAddress = "https://maps.googleapis.com/maps/api/geocode/json?address=" +
-      result + "&key=AIzaSyBCe0I4peOv_U0Ud2e6yNpuWtgRTpalG8Y";
+    map.setCenter(new google.maps.LatLng(lat, lng));
+    map.setZoom(13);
 
-    $.get(webAddress)
-      .done(function (data) {
-        var lat = data.results[0].geometry.location.lat;
-        var lng = data.results[0].geometry.location.lng;
+    var marker = new google.maps.Marker({
+      position: {
+        lat: lat,
+        lng: lng
+      },
+      map: map
+      //icon: "icons/marker.png"
+    });
 
-        map.setCenter(new google.maps.LatLng(lat, lng));
-        map.setZoom(13);
 
-        var marker = new google.maps.Marker({
-          position: {
-            lat: lat,
-            lng: lng
-          },
-          map: map
-          //icon: "icons/marker.png"
-        });
-        // call function to get information about all properites, amenities, and transportation in the area
-        getMarkers(lat, lng);
-      }).fail(function (error) {
-        console.log(error)
-      });
+    // call function to get information about all properites, amenities, and transportation in the area
+    //getMarkers(lat, lng);
   }
 
-  function getMarkers(lat, lng) {
+  // Get the transportation services
+  function getTransportation() {
     $.ajax({
-      url: "https://www.itc.alackey.com/transportation?lat=" + lat + "&long=" + lng + "&radius=1",
-      headers: {
-        "Access-Control-Allow-Origin": "*"
-      }
+      url: "/transportation?lat=" + local.lat + "&long=" + local.long + "&radius=" + local.range
     }).done(function (data) {
-      data.results.forEach(function (marker) {
+      var type = data.data.type;
+      
+      data.data.results.forEach(function (marker) {
         var coordinates = new google.maps.LatLng(marker.lat, marker.long);
         var setUp = {
           position: coordinates,
           map: map,
           title: marker.name
         }
-        if (marker.type == "airport") {
-          setUp.icon = "icons/transportation.png"
-        } else if (marker.type == "amenity") {
-          setUp.icon = "icons/amenity.png"
+
+        // Set icon
+        if (type == "transportation") {
+          setUp.icon = "images/icons/transportation.png";
+        } else if (type == "amenity") {
+          setUp.icon = "images/icons/amenity.png";
         }
         var completeMarker = new google.maps.Marker(setUp);
 
-        console.log(setUp);
+        var infowindow = new google.maps.InfoWindow({
+          content: JSON.stringify(marker)
+        });
+
         // adding an on click listener to show info about the particular marker
         completeMarker.addListener("click", function () {
-          marker.infowindow = new google.maps.InfoWindow();
-          marker.infowindow.open(map, marker);
+          infowindow.open(map, completeMarker);
         });
       });
+    })
+    .fail(function(jq, text, err) {
+      var mapErrors = $('#map-errors');
+      
+      if (mapErrors.children().length == 0) {
+        mapErrors.append('<h3>Error</h3>');
+      }
+      mapErrors.append('<p>No transportation found. Increase radius.</p>');
     });
   }
 
@@ -438,22 +448,22 @@
 
       switch (weatherReport.weekly[i].icon) {
         case "sunny":
-          imgEle.setAttribute("src", "icons/sunny.png");
+          imgEle.setAttribute("src", "images/icons/sunny.png");
           break;
         case "cloudy":
-          imgEle.setAttribute("src", "icons/cloudy.png");
+          imgEle.setAttribute("src", "images/icons/cloudy.png");
           break;
         case "foggy":
-          imgEle.setAttribute("src", "icons/foggy.png");
+          imgEle.setAttribute("src", "images/icons/foggy.png");
           break;
         case "rainy":
-          imgEle.setAttribute("src", "icons/rainy.png");
+          imgEle.setAttribute("src", "images/icons/rainy.png");
           break;
         case "snowy":
-          imgEle.setAttribute("src", "icons/snowy.png");
+          imgEle.setAttribute("src", "images/icons/snowy.png");
           break;
         default:
-          imgEle.setAttribute("src", "icons/sunny.png");
+          imgEle.setAttribute("src", "images/icons/sunny.png");
       }
 
       imgDiv.appendChild(imgEle);
@@ -479,29 +489,26 @@
 
       switch (weatherReport.seasonal[i].icon) {
         case "sunny":
-          imgEle.setAttribute("src", "icons/sunny.png");
+          imgEle.setAttribute("src", "images/icons/sunny.png");
           break;
         case "cloudy":
-          imgEle.setAttribute("src", "icons/cloudy.png");
+          imgEle.setAttribute("src", "images/icons/cloudy.png");
           break;
         case "foggy":
-          imgEle.setAttribute("src", "icons/foggy.png");
+          imgEle.setAttribute("src", "images/icons/foggy.png");
           break;
         case "rainy":
-          imgEle.setAttribute("src", "icons/rainy.png");
+          imgEle.setAttribute("src", "images/icons/rainy.png");
           break;
         case "snowy":
-          imgEle.setAttribute("src", "icons/snowy.png");
+          imgEle.setAttribute("src", "images/icons/snowy.png");
           break;
         default:
-          imgEle.setAttribute("src", "icons/sunny.png");
+          imgEle.setAttribute("src", "images/icons/sunny.png");
       }
 
       imgDiv.appendChild(imgEle);
       seasonalImg.appendChild(imgDiv);
     }
   }
-</script>
-
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBCe0I4peOv_U0Ud2e6yNpuWtgRTpalG8Y&callback=initMap">
 </script>

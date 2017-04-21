@@ -1,5 +1,13 @@
+var hostname;
 $(document).ready( function () {
     $('#middle-content').load('landing.html');
+
+    // Set hostname
+    if (window.location.hostname === 'localhost') {
+      hostname = '52.38.10.190';
+    } else {
+      hostname = window.location.hostname;
+    }
 } );
 
 // This example displays an address form, using the autocomplete feature
@@ -43,26 +51,25 @@ function geolocate() {
 }
 
 // Called when autocomplete field is filled in with address
+var local;
 function fillInAddress() {
   // Get the place details from the autocomplete object.
   var place = autocomplete.getPlace();
-  console.log(JSON.stringify(place.formatted_address));
-  var local = {
+  local = {
     full_address: place.formatted_address,
     lat: place.geometry.location.lat(),
     long: place.geometry.location.lng(),
+    range: parseInt($('.milesSelect :selected').text()),
   };
 
+  // Get parts of the address
   place.address_components.forEach(function(component) {
     component.types.forEach(function(type) {
       if (type == "administrative_area_level_1") {
-        console.log("state: " + component.short_name);
         local.state_short = component.short_name;
       }
     });
   });
-  console.log("local var: " + JSON.stringify(local));
-
 
   // Load results page
   loadResults();
@@ -70,5 +77,7 @@ function fillInAddress() {
 
 // Load the results page
 function loadResults() {
-  $('#middle-content').load('results.html');
+  $('#middle-content').load('results.html', function() {
+    getTransportation();
+  });
 }

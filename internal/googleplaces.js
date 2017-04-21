@@ -55,8 +55,9 @@ const getPlaces = function getPlaces(lat, long, radius, type) {
     };
 
     placeSearch(parameters, (err, response) => {
-      // console.log(parseResults(response));
-      if (response.status !== 'OK') reject(response);
+      if (response.status !== 'OK' && response.status !== 'ZERO_RESULTS') {
+        reject(response);
+      }
       resolve(parseResults(response, type));
     });
   });

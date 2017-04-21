@@ -33,7 +33,9 @@ router.get('/', (req, res) => {
 
   Promise.all(placePromises)
     .then((data) => {
-      res.status(200).json({ data: googleplaces.mergeResults(data) });
+      const finalResult = googleplaces.mergeResults(data);
+      finalResult.type = 'transportation';
+      res.status(200).json({ data: finalResult });
     }).catch((err) => {
       res.status(500).json({ data: err });
     });

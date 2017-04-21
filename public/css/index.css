@@ -160,3 +160,7 @@
     margin: auto; 
     max-width: 500px;
 }
+
+#map-errors p {
+  font-size: 15px;
+}
