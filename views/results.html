@@ -62,14 +62,7 @@
         <h3 class="text-center">Weekly</h3>
         <div class="weather">
           <div class="center-row">
-            <div class="row">
-              <div class="col-xs-2">Sun</div>
-              <div class="col-xs-1">Mon</div>
-              <div class="col-xs-2">Tue</div>
-              <div class="col-xs-1">Wed</div>
-              <div class="col-xs-2">Thu</div>
-              <div class="col-xs-1">Fri</div>
-              <div class="col-xs-2">Sat</div>
+            <div class="row" id="weather-days">
             </div>
           </div>
           <div class="center-row">
@@ -375,18 +368,18 @@
           crimes.Crimes.forEach(function (crime) {
             var row =
               '<tr>' +
-                '<td>' + crime.Population + '</td>' +
-                '<td>' + crime.Year + '</td>' +
-                '<td>' + crime.ViolentCrime + '</td>' +
-                '<td>' + crime.Murder + '</td>' +
-                '<td>' + crime.Rape + '</td>' +
-                '<td>' + crime.Robbery + '</td>' +
-                '<td>' + crime.AggravatedAssault + '</td>' +
-                '<td>' + crime.PropertyCrime + '</td>' +
-                '<td>' + crime.Burglary + '</td>' +
-                '<td>' + crime.Larceny + '</td>' +
-                '<td>' + crime.VehicleTheft + '</td>' +
-                '<td>' + crime.Arson + '</td>' +
+              '<td>' + crime.Population + '</td>' +
+              '<td>' + crime.Year + '</td>' +
+              '<td>' + crime.ViolentCrime + '</td>' +
+              '<td>' + crime.Murder + '</td>' +
+              '<td>' + crime.Rape + '</td>' +
+              '<td>' + crime.Robbery + '</td>' +
+              '<td>' + crime.AggravatedAssault + '</td>' +
+              '<td>' + crime.PropertyCrime + '</td>' +
+              '<td>' + crime.Burglary + '</td>' +
+              '<td>' + crime.Larceny + '</td>' +
+              '<td>' + crime.VehicleTheft + '</td>' +
+              '<td>' + crime.Arson + '</td>' +
               '</tr>';
 
             tbody.append(row);
@@ -397,111 +390,123 @@
       })
       .fail(function (jq, text, err) {
         var crimeList = $('.crimeList');
-
-        if (crimeList.children().length == 0) {
-          crimeList.append('<h3>Error</h3>');
-        }
         crimeList.append('<h3>Error</h3><p>Crime for your city not available.</p>');
       });
   }
 
   // Set the temperatures for the week and the seasons along with their appropriate images
   function setWeather( /*weeklyTemp, seasonTemp*/ ) {
+    $.ajax({
+        url: "/weather?lat=" + local.lat + "&long=" + local.long
+      })
+      .done(function (data) {
+        var weeklyOutput = document.getElementById("weeklyOutput");
+        var weeklyImg = document.getElementById("weeklyImg");
+        var seasonalOutput = document.getElementById("seasonalOutput");
+        var seasonalImg = document.getElementById("seasonalImg");
+        var days = [
+          '<div class="col-xs-1">',
+          '<div class="col-xs-2">',
+          '<div class="col-xs-1">',
+          '<div class="col-xs-2">',
+          '<div class="col-xs-1">',
+          '<div class="col-xs-2">',
+          '<div class="col-xs-1">'
+        ];
 
-    var weeklyOutput = document.getElementById("weeklyOutput");
-    var weeklyImg = document.getElementById("weeklyImg");
-    var seasonalOutput = document.getElementById("seasonalOutput");
-    var seasonalImg = document.getElementById("seasonalImg");
+        // Loop through the seven days of the week and set the temperature and icon
+        for (i = 1; i < 8; i++) {
+          days[i-1] = days[i-1] + data.forecast[i].day.substring(0, 3) + '</div>';
 
-    // Loop through the seven days of the week and set the temperature and icon
-    for (i = 0; i < 7; i++) {
-      // create a dynamic div for each day of the week for the temperature
-      var weatherDiv = document.createElement("div");
-      if (i % 2 == 0) {
-        weatherDiv.setAttribute("class", "col-xs-2");
-      } else {
-        weatherDiv.setAttribute("class", "col-xs-1");
-      }
-      weatherDiv.innerHTML = weatherReport.weekly[i].temp + "&#8457;";
-      weeklyOutput.appendChild(weatherDiv);
+          // create a dynamic div for each day of the week for the temperature
+          var weatherDiv = document.createElement("div");
+          if (i % 2 == 0) {
+            weatherDiv.setAttribute("class", "col-xs-2");
+          } else {
+            weatherDiv.setAttribute("class", "col-xs-1");
+          }
+          weatherDiv.innerHTML = parseInt(data.forecast[i].temp) + "&#8457;";
+          weeklyOutput.appendChild(weatherDiv);
 
-      // create a dynamic div for each day of the week for the icon
-      var imgDiv = document.createElement("div");
-      if (i % 2 == 0) {
-        imgDiv.setAttribute("class", "col-xs-2");
-      } else {
-        imgDiv.setAttribute("class", "col-xs-1");
-      }
+          // create a dynamic div for each day of the week for the icon
+          var imgDiv = document.createElement("div");
+          if (i % 2 == 0) {
+            imgDiv.setAttribute("class", "col-xs-2");
+          } else {
+            imgDiv.setAttribute("class", "col-xs-1");
+          }
 
-      // create a dynamic img for each day of the week for the icon
-      var imgEle = document.createElement("img");
+          // create a dynamic img for each day of the week for the icon
+          var imgEle = document.createElement("img");
 
-      imgEle.setAttribute("height", 15);
-      imgEle.setAttribute("width", 15);
+          imgEle.setAttribute("height", 15);
+          imgEle.setAttribute("width", 15);
 
-      switch (weatherReport.weekly[i].icon) {
-        case "sunny":
-          imgEle.setAttribute("src", "images/icons/sunny.png");
-          break;
-        case "cloudy":
-          imgEle.setAttribute("src", "images/icons/cloudy.png");
-          break;
-        case "foggy":
-          imgEle.setAttribute("src", "images/icons/foggy.png");
-          break;
-        case "rainy":
-          imgEle.setAttribute("src", "images/icons/rainy.png");
-          break;
-        case "snowy":
-          imgEle.setAttribute("src", "images/icons/snowy.png");
-          break;
-        default:
-          imgEle.setAttribute("src", "images/icons/sunny.png");
-      }
+          switch (data.forecast[i].icon) {
+            case "clear-day":
+            case "clear-night":
+            case "wind":
+              imgEle.setAttribute("src", "images/icons/sunny.png");
+              break;
+            case "cloudy":
+            case "partly-cloudy-day":
+            case "partly-cloudy-night":
+              imgEle.setAttribute("src", "images/icons/cloudy.png");
+              break;
+            case "fog":
+              imgEle.setAttribute("src", "images/icons/foggy.png");
+              break;
+            case "rain":
+              imgEle.setAttribute("src", "images/icons/rainy.png");
+              break;
+            case "snow":
+            case "sleet":
+              imgEle.setAttribute("src", "images/icons/snowy.png");
+              break;
+            default:
+              imgEle.setAttribute("src", "images/icons/sunny.png");
+          }
 
-      imgDiv.appendChild(imgEle);
-      weeklyImg.appendChild(imgDiv);
-    }
+          imgDiv.appendChild(imgEle);
+          weeklyImg.appendChild(imgDiv);
+        }
+        $('#weather-days').append(days);
 
-    for (i = 0; i < 4; i++) {
-      // create a dynamic div for each season of the year for the temperature
-      var weatherDiv = document.createElement("div");
-      weatherDiv.setAttribute("class", "col-xs-3");
-      weatherDiv.innerHTML = weatherReport.seasonal[i].temp + "&#8457;";
-      seasonalOutput.appendChild(weatherDiv);
+        // Seasonal
+        for (i = 0; i < 4; i++) {
+          // create a dynamic div for each season of the year for the temperature
+          var weatherDiv = document.createElement("div");
+          weatherDiv.setAttribute("class", "col-xs-3");
+          weatherDiv.innerHTML = data.seasonal[i].averageTemperature + "&#8457;";
+          seasonalOutput.appendChild(weatherDiv);
 
-      // create a dynamic div for each season of the year for the icon
-      var imgDiv = document.createElement("div");
-      imgDiv.setAttribute("class", "col-xs-3");
+          // create a dynamic div for each season of the year for the icon
+          var imgDiv = document.createElement("div");
+          imgDiv.setAttribute("class", "col-xs-3");
 
-      // create a dynamic img for each season of the year for the icon
-      var imgEle = document.createElement("img");
+          // create a dynamic img for each season of the year for the icon
+          var imgEle = document.createElement("img");
 
-      imgEle.setAttribute("height", 15);
-      imgEle.setAttribute("width", 15);
+          imgEle.setAttribute("height", 15);
+          imgEle.setAttribute("width", 15);
 
-      switch (weatherReport.seasonal[i].icon) {
-        case "sunny":
-          imgEle.setAttribute("src", "images/icons/sunny.png");
-          break;
-        case "cloudy":
-          imgEle.setAttribute("src", "images/icons/cloudy.png");
-          break;
-        case "foggy":
-          imgEle.setAttribute("src", "images/icons/foggy.png");
-          break;
-        case "rainy":
-          imgEle.setAttribute("src", "images/icons/rainy.png");
-          break;
-        case "snowy":
-          imgEle.setAttribute("src", "images/icons/snowy.png");
-          break;
-        default:
-          imgEle.setAttribute("src", "images/icons/sunny.png");
-      }
+          if (data.seasonal[i].averageTemperature > 75) {
+            imgEle.setAttribute("src", "images/icons/sunny.png");
+          } else if (data.seasonal[i].averageTemperature < 32) {
+            imgEle.setAttribute("src", "images/icons/snowy.png");
+          } else if (data.seasonal[i].averageTemperature <=75 && data.seasonal[i].averageTemperature > 65) {
+            imgEle.setAttribute("src", "images/icons/cloudy.png");
+          } else if (data.seasonal[i].averageTemperature <=65 && data.seasonal[i].averageTemperature > 35) {
+            imgEle.setAttribute("src", "images/icons/foggy.png");
+          }
 
-      imgDiv.appendChild(imgEle);
-      seasonalImg.appendChild(imgDiv);
-    }
+          imgDiv.appendChild(imgEle);
+          seasonalImg.appendChild(imgDiv);
+        }
+      })
+      .fail(function (jq, text, err) {
+        var crimeList = $('.weather');
+        crimeList.append('<h3>Error</h3><p>Weather is not available.</p>');
+      });
   }
 </script>

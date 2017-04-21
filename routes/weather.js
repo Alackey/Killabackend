@@ -13,21 +13,15 @@ router.get('/', (req, res) => {
 
   weather.getWeather(lat, long)
     .then((data) => {
-      daily.push({
-        currentTemperature: data.currently.apparentTemperature,
-        summary: data.currently.summary,
-      });
 
       for (let i = 0; i < 8; i++) {
         const date = new Date(0);
         const weeklyTemperature = {};
         date.setUTCSeconds(data.daily.data[i].time);
-        weeklyTemperature.time = date;
+
         weeklyTemperature.day = days[date.getUTCDay()];
-        weeklyTemperature.summary = data.daily.data[i].summary;
-        weeklyTemperature.temperatureMax = data.daily.data[i].temperatureMax;
-        weeklyTemperature.temperatureMin = data.daily.data[i].temperatureMin;
         weeklyTemperature.temp = (data.daily.data[i].temperatureMax + data.daily.data[i].temperatureMin) / 2;
+        weeklyTemperature.icon = data.daily.data[i].icon;
         daily.push(weeklyTemperature);
       }
     })
