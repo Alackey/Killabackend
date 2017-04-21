@@ -35,21 +35,37 @@ function initAutocomplete() {
 function fillInAddress() {
   // Get the place details from the autocomplete object.
   var place = autocomplete.getPlace();
-  console.log(JSON.stringify(place));
-  for (var component in componentForm) {
-    document.getElementById(component).value = '';
-    document.getElementById(component).disabled = false;
-  }
+  console.log(JSON.stringify(place.formatted_address));
+  var local = {
+    full_address: place.formatted_address,
+    lat: place.geometry.location.lat(),
+    long: place.geometry.location.lng(),
+  };
 
-  // Get each component of the address from the place details
-  // and fill the corresponding field on the form.
-  for (var i = 0; i < place.address_components.length; i++) {
-    var addressType = place.address_components[i].types[0];
-    if (componentForm[addressType]) {
-      var val = place.address_components[i][componentForm[addressType]];
-      document.getElementById(addressType).value = val;
-    }
-  }
+  place.address_components.forEach(function(component) {
+    component.types.forEach(function(type) {
+      if (type == "administrative_area_level_1") {
+        console.log("state: " + component.short_name);
+        local.state_short = component.short_name;
+      }
+    });
+  });
+  console.log("local var: " + JSON.stringify(local));
+
+  // for (var component in componentForm) {
+  //   document.getElementById(component).value = '';
+  //   document.getElementById(component).disabled = false;
+  // }
+
+  // // Get each component of the address from the place details
+  // // and fill the corresponding field on the form.
+  // for (var i = 0; i < place.address_components.length; i++) {
+  //   var addressType = place.address_components[i].types[0];
+  //   if (componentForm[addressType]) {
+  //     var val = place.address_components[i][componentForm[addressType]];
+  //     document.getElementById(addressType).value = val;
+  //   }
+  // }
 }
 
 // Bias the autocomplete object to the user's geographical location,
