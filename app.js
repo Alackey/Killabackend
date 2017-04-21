@@ -8,7 +8,6 @@ const compression = require('compression');
 const weather = require('./routes/weather');
 const transportation = require('./routes/transportation');
 const amenities = require('./routes/amenities');
-const weatherHistory = require('./routes/weatherHistory');
 
 const app = express();
 
@@ -30,7 +29,6 @@ app.use(compression());
 app.use('/weather', weather);
 app.use('/transportation', transportation);
 app.use('/amenities', amenities);
-app.use('/weatherhistory', weatherHistory);
 
 /// catch 404 and forward to error handler
 app.use((req, res, next) => {
@@ -40,7 +38,6 @@ app.use((req, res, next) => {
 });
 
 /// error handlers
-
 // development error handler
 // will print stacktrace
 

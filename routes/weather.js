@@ -27,38 +27,43 @@ router.get('/', (req, res) => {
         weeklyTemperature.summary = data.daily.data[i].summary;
         weeklyTemperature.temperatureMax = data.daily.data[i].temperatureMax;
         weeklyTemperature.temperatureMin = data.daily.data[i].temperatureMin;
+        weeklyTemperature.temp = ( data.daily.data[i].temperatureMax + data.daily.data[i].temperatureMin) / 2;
         daily.push(weeklyTemperature);
       }
-
-      res.status(200).json({ daily });
+      //res.status(200).json({ daily });
     })
     .catch((err) => {
       res.status(500).json({ data: err });
     });
-});
 
-router.get('/history', (req, res) => {
-  const lat = req.query.lat;
-  const long = req.query.long;
-
-  //Query Weather Underground for local weather history
-  weather.getGeolocation(lat, long)
-  .then((body) => {
-    //Parses the first existing airport code. Thus, meaning the neartest airport station.
-    const icao = body.location.nearby_weather_stations.airport.station.find((station) => {
-      return station.icao !== '';
-    });
-    weather.getHistory(icao.icao)
-      .then((historyBody) => {
-        res.status(200).json({ data: historyBody });
+      //Query Weather Underground for local weather history
+      weather.getGeolocation(lat, long)
+      .then((body) => {
+        //Parses the first existing airport code. Thus, meaning the neartest airport station.
+        const icao = body.location.nearby_weather_stations.airport.station.find((station) => {
+          return station.icao !== '';
+        });
+        weather.getHistory(icao.icao)
+          .then((historyBody) => {
+            res.status(200).json({
+              forecast: daily,
+              seasonal: historyBody });
+          })
+          .catch((historyError) => {
+            console.log(historyError);
+            //res.status(500).json({ data: historyError });
+          });
       })
-      .catch((historyError) => {
-        res.status(500).json({ data: historyError });
+      .catch((error) => {
+        console.log(error);
       });
-  })
-  .catch((error) => {
-    console.log(error);
-  });
 });
+
+// router.get('/history', (req, res) => {
+//   const lat = req.query.lat;
+//   const long = req.query.long;
+
+
+// });
 
 module.exports = router;

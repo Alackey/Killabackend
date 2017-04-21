@@ -15,7 +15,6 @@ const forecast = new DarkSky(config.darksky.API_KEY);
  * @param types - the types of the places
 */
 
-
 const getWeather = function getWeather(lat, long) {
   return new Promise((resolve, reject) => {
     forecast
