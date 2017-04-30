@@ -1,5 +1,8 @@
 # AskTheNeighbor
 
+***NOTE***
+Continuation of development here: https://github.com/Alackey/AskTheNeighbor
+
 ## Getting Started
 Go here: https://www.itc.alackey.com/ or http://52.38.10.190:3000/
 
